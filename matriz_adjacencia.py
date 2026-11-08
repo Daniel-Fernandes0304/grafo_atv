@@ -101,14 +101,15 @@ def listar_vizinhos(matriz, vertices, vertice):
 
 def exibir_grafo(matriz, vertices):
     print("\nMatriz de Adjacência:")
-    largura = 3
+    print("\t", end="")
     for v in vertices:
-        if len(v) > largura:
-            largura = len(v)
-    print(" " * largura + " " + " ".join(f"{v:>{largura}}" for v in vertices))
+        print(v, end="\t")
+    print()
     for i in range(len(vertices)):
-        valores = " ".join(f"{x:>{largura}}" for x in matriz[i])
-        print(f"{vertices[i]:>{largura}} {valores}")
+        print(vertices[i], end="\t")
+        for valor in matriz[i]:
+            print(valor, end="\t")
+        print()
 
 
 def main():

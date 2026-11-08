@@ -15,16 +15,11 @@ def inserir_aresta(vertices, arestas, origem, destino, nao_direcionado=False):
 
 
 def remover_aresta(arestas, origem, destino, nao_direcionado=False):
-    for aresta in arestas:
-        if aresta == [origem, destino]:
-            arestas.remove(aresta)
-            break
+    if [origem, destino] in arestas:
+        arestas.remove([origem, destino])
 
-    if nao_direcionado:
-        for aresta in arestas:
-            if aresta == [destino, origem]:
-                arestas.remove(aresta)
-                break
+    if nao_direcionado and [destino, origem] in arestas:
+        arestas.remove([destino, origem])
 
 
 def remover_vertice(vertices, arestas, vertice):
@@ -34,9 +29,12 @@ def remover_vertice(vertices, arestas, vertice):
 
     vertices.remove(vertice)
 
-    for aresta in arestas[:]:
-        if aresta[0] == vertice or aresta[1] == vertice:
-            arestas.remove(aresta)
+    i = 0
+    while i < len(arestas):
+        if arestas[i][0] == vertice or arestas[i][1] == vertice:
+            arestas.pop(i)
+        else:
+            i += 1
 
     print(f"Vértice {vertice} removido.")
 
@@ -50,9 +48,9 @@ def existe_aresta(arestas, origem, destino):
 
 def vizinhos(vertices, arestas, vertice):
     lista_vizinhos = []
-    for origem, destino in arestas:
-        if origem == vertice:
-            lista_vizinhos.append(destino)
+    for aresta in arestas:
+        if aresta[0] == vertice:
+            lista_vizinhos.append(aresta[1])
     return lista_vizinhos
 
 
@@ -61,17 +59,17 @@ def grau_vertices(vertices, arestas, nao_direcionado=False):
     for vertice in vertices:
         if nao_direcionado:
             grau = 0
-            for origem, destino in arestas:
-                if origem == vertice:
+            for aresta in arestas:
+                if aresta[0] == vertice:
                     grau += 1
             graus[vertice] = grau
         else:
             entrada = 0
             saida = 0
-            for origem, destino in arestas:
-                if origem == vertice:
+            for aresta in arestas:
+                if aresta[0] == vertice:
                     saida += 1
-                if destino == vertice:
+                if aresta[1] == vertice:
                     entrada += 1
             graus[vertice] = {"saida": saida, "entrada": entrada, "total": entrada + saida}
     return graus
@@ -97,8 +95,8 @@ def listar_vizinhos(vertices, arestas, vertice):
 def exibir_grafo(vertices, arestas):
     print(f"\nVértices: {vertices}")
     print("Arestas:")
-    for origem, destino in arestas:
-        print(f"({origem} -> {destino})")
+    for aresta in arestas:
+        print(f"({aresta[0]} -> {aresta[1]})")
 
 
 def main():

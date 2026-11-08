@@ -56,7 +56,7 @@ def remover_vertice(grafo, vertice, nao_direcionado=True):
         if vertice in grafo[outro]:
             grafo[outro].remove(vertice)
 
-    del grafo[vertice]
+    grafo.pop(vertice)
     print(f"Vértice {vertice} removido.")
     return True
 
